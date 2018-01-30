@@ -1,6 +1,9 @@
 package service.admin;
 
+import dataconnection.exception.IllegalOperationException;
 import model.admin.Admin;
+import repository.admin.AdminRepository;
+import repository.admin.AdminRepositoryImpl;
 
 /**
  * Created by araksgyulumyan
@@ -9,10 +12,17 @@ import model.admin.Admin;
  */
 public class AdminServiceImpl implements AdminService {
 
-    @Override
-    public Admin getOrCreateAdmin() {
-        //TODO check if admin already exists, return admin, else create new one and return it
+    private final AdminRepository adminRepository;
 
-        return null;
+    public AdminServiceImpl() {
+        this.adminRepository = new AdminRepositoryImpl();
+    }
+
+    @Override
+    public Admin getOrCreateAdmin(String username) {
+        if (adminRepository.getAdminsCount() > 1) {
+            throw new IllegalOperationException("Error occurred during creating admin");
+        }
+        return adminRepository.createAdmin("admin");
     }
 }

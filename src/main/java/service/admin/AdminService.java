@@ -9,6 +9,5 @@ import model.admin.Admin;
  */
 public interface AdminService {
 
-    Admin getOrCreateAdmin();
-
+    Admin getOrCreateAdmin(String username);
 }

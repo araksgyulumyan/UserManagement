@@ -11,6 +11,16 @@ public class Admin extends AbstractModel {
 
     private String username;
 
+    public Integer getAdminsCount() {
+        return adminsCount;
+    }
+
+    public void setAdminsCount(Integer adminsCount) {
+        this.adminsCount = adminsCount;
+    }
+
+    private Integer adminsCount;
+
     public String getUsername() {
         return username;
     }

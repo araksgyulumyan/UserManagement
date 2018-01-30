@@ -14,4 +14,6 @@ public interface AdminRepository extends CommonRepository<Admin> {
 
     Admin updateAdminUsername(final String username);
 
+    Integer getAdminsCount();
+
 }

@@ -10,9 +10,7 @@ import repository.common.CommonRepository;
  */
 public interface AdminRepository extends CommonRepository<Admin> {
 
-    Admin createAdmin(final String username);
-
-    Admin updateAdminUsername(final String username);
+    void createAdmin(final String username);
 
     Integer getAdminsCount();
 

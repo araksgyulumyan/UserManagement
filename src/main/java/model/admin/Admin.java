@@ -1,6 +1,9 @@
 package model.admin;
 
 import model.common.AbstractModel;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Created by araksgyulumyan
@@ -11,21 +14,19 @@ public class Admin extends AbstractModel {
 
     private String username;
 
-    public Integer getAdminsCount() {
-        return adminsCount;
-    }
-
-    public void setAdminsCount(Integer adminsCount) {
-        this.adminsCount = adminsCount;
-    }
-
-    private Integer adminsCount;
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .appendSuper(super.toString())
+                .append("username", username)
+                .toString();
     }
 }

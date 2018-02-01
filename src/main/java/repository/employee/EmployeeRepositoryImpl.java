@@ -2,6 +2,8 @@ package repository.employee;
 
 import model.employee.Employee;
 
+import java.util.List;
+
 /**
  * Created by araksgyulumyan
  * Date - 1/29/18
@@ -19,7 +21,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public Employee findAll() {
+    public List<Employee> findAll() {
         return null;
     }
 

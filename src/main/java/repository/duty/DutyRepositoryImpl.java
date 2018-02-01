@@ -3,6 +3,8 @@ package repository.duty;
 import model.duty.Duty;
 import model.duty.DutyType;
 
+import java.util.List;
+
 /**
  * Created by araksgyulumyan
  * Date - 1/29/18
@@ -25,7 +27,7 @@ public class DutyRepositoryImpl implements DutyRepository {
     }
 
     @Override
-    public Duty findAll() {
+    public List<Duty> findAll() {
         return null;
     }
 

@@ -1,4 +1,4 @@
-package dataconnection.exception;
+package repository.common.exception;
 
 /**
  * Created by araksgyulumyan
@@ -17,5 +17,9 @@ public class DataSourceException extends RuntimeException {
 
     public DataSourceException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    public DataSourceException(Throwable cause) {
+        super(cause);
     }
 }

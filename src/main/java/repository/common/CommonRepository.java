@@ -2,6 +2,8 @@ package repository.common;
 
 import model.common.AbstractModel;
 
+import java.util.List;
+
 /**
  * Created by araksgyulumyan
  * Date - 1/28/18
@@ -9,10 +11,9 @@ import model.common.AbstractModel;
  */
 public interface CommonRepository<T extends AbstractModel> {
 
-    T findAll();
+    List<T> findAll();
 
     T findById(final Long id);
 
     void removeById(final Long id);
-
 }

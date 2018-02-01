@@ -1,5 +1,7 @@
 package model.common;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * Created by araksgyulumyan
  * Date - 1/28/18
@@ -15,5 +17,13 @@ public abstract class AbstractModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .toString();
     }
 }

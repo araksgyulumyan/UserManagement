@@ -1,5 +1,10 @@
+import model.admin.Admin;
+import repository.admin.AdminRepository;
+import repository.admin.AdminRepositoryImpl;
 import service.admin.AdminService;
 import service.admin.AdminServiceImpl;
+
+import java.util.List;
 
 /**
  * Created by araksgyulumyan
@@ -9,14 +14,7 @@ import service.admin.AdminServiceImpl;
 public class UserManagementApplication {
 
     public static void main(String[] args) {
-        AdminService adminService = new AdminServiceImpl();
-
-
-
-        adminService.getOrCreateAdmin();
-
-
-
+        //todo create factory to retrieve services
     }
 
 }

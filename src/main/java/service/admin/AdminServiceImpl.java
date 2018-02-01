@@ -1,9 +1,12 @@
 package service.admin;
 
-import dataconnection.exception.IllegalOperationException;
 import model.admin.Admin;
+import org.apache.commons.lang3.StringUtils;
 import repository.admin.AdminRepository;
 import repository.admin.AdminRepositoryImpl;
+import service.common.exception.ServiceRuntimeException;
+
+import java.util.List;
 
 /**
  * Created by araksgyulumyan
@@ -19,10 +22,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin getOrCreateAdmin(String username) {
-        if (adminRepository.getAdminsCount() > 1) {
-            throw new IllegalOperationException("Error occurred during creating admin");
+    public Admin getOrCreateAdmin(final String username) {
+        assertUsernameNotEmpty(username);
+        if (adminRepository.getAdminsCount() == 0) {
+            adminRepository.createAdmin(username);
         }
-        return adminRepository.createAdmin("admin");
+        final List<Admin> admins = adminRepository.findAll();
+        return admins.get(0);
+    }
+
+    // Utility methods
+    private void assertUsernameNotEmpty(final String username) {
+        if(StringUtils.isEmpty(username)) {
+            throw new ServiceRuntimeException("Admin username should not be empty");
+        }
     }
 }

@@ -1,8 +1,8 @@
 package repository.admin;
 
-import repository.common.model.DataSourceConnection;
-import repository.common.exception.DataSourceException;
 import model.admin.Admin;
+import repository.common.exception.DataSourceException;
+import repository.common.model.DataSourceConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +19,7 @@ import java.util.List;
 public class AdminRepositoryImpl implements AdminRepository {
 
     private static final String FIND_ALL_QUERY = "SELECT * FROM ADMINS";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM ADMINS WHERE id=%d";
     private static final String INSERT_INTO_QUERY = "INSERT INTO ADMINS (username) VALUES ('%s')";
     private static final String SELECT_COUNT_QUERY = "SELECT COUNT(*) AS TOTAL FROM ADMINS";
 
@@ -48,8 +49,28 @@ public class AdminRepositoryImpl implements AdminRepository {
 
     @Override
     public Admin findById(Long id) {
-        //todo
-        return null;
+        final List<Admin> admins = new ArrayList<>();
+        // Open connection
+        final Connection connection = getConnection();
+
+        String sqlQuery = String.format(FIND_BY_ID_QUERY, id);
+
+        // Get prepared statement
+        final PreparedStatement preparedStatement = DataSourceConnection.
+                getInstance().
+                createPreparedStatement(sqlQuery, connection);
+        try {
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            // Convert result set into model
+            admins.addAll(convertToAdmin(resultSet));
+        } catch (SQLException e) {
+            throw new DataSourceException(e);
+        } finally {
+            // Close resources
+            closeExecutionResources(preparedStatement, connection);
+        }
+        //todo check and throw ex if result is empty
+        return admins.get(0);
     }
 
     @Override
@@ -88,13 +109,11 @@ public class AdminRepositoryImpl implements AdminRepository {
         final PreparedStatement preparedStatement = DataSourceConnection.
                 getInstance().
                 createPreparedStatement(SELECT_COUNT_QUERY, connection);
-        final ResultSet resultSet;
         Integer adminsCount = null;
         try {
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
                 adminsCount = resultSet.getInt("TOTAL");
-                break;
             }
         } catch (SQLException e) {
             throw new DataSourceException(e);

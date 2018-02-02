@@ -1,10 +1,9 @@
-import model.admin.Admin;
-import repository.admin.AdminRepository;
-import repository.admin.AdminRepositoryImpl;
+import model.employee.Employee;
 import service.admin.AdminService;
 import service.admin.AdminServiceImpl;
-
-import java.util.List;
+import service.common.factory.ServiceFactory;
+import service.common.model.ServiceType;
+import service.employee.EmployeeService;
 
 /**
  * Created by araksgyulumyan
@@ -13,8 +12,11 @@ import java.util.List;
  */
 public class UserManagementApplication {
 
+
     public static void main(String[] args) {
-        //todo create factory to retrieve services
+        ServiceFactory serviceFactory = new ServiceFactory();
+        AdminService adminService = (AdminService) serviceFactory.getService(ServiceType.ADMIN);
+        System.out.println("asdasd");
     }
 
 }

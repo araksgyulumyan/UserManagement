@@ -24,10 +24,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin getOrCreateAdmin(final String username) {
         assertUsernameNotEmpty(username);
-        if (adminRepository.getAdminsCount() == 0) {
+        if (getAdminsCount() == 0) {
             adminRepository.createAdmin(username);
         }
         final List<Admin> admins = adminRepository.findAll();
+        // todo admins get(0) may throw index out of bound exp
         return admins.get(0);
     }
 
@@ -36,5 +37,9 @@ public class AdminServiceImpl implements AdminService {
         if(StringUtils.isEmpty(username)) {
             throw new ServiceRuntimeException("Admin username should not be empty");
         }
+    }
+
+    private Integer getAdminsCount() {
+        return adminRepository.getAdminsCount();
     }
 }

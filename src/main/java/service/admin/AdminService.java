@@ -10,5 +10,5 @@ import service.common.factory.Service;
  */
 public interface AdminService extends Service {
 
-    Admin getOrCreateAdmin(String username);
+    Admin getOrCreateAdmin(final String username);
 }

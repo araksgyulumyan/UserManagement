@@ -1,5 +1,6 @@
 package repository.common.model;
 
+import org.apache.commons.lang3.StringUtils;
 import repository.common.exception.DataSourceException;
 
 import java.sql.Connection;
@@ -20,9 +21,9 @@ public class DataSourceConnection {
     private static final DataSourceConnection instance = new DataSourceConnection();
 
 
-    //  Database credentials
+    // Database credentials
     private static final String USER = "root";
-    private static final String PASS = "";
+    private static final String PASS = StringUtils.EMPTY;
 
     //make the constructor private so that this class cannot be
     //instantiated
@@ -37,7 +38,8 @@ public class DataSourceConnection {
     public PreparedStatement createPreparedStatement(final String query, final Connection connection) {
         final PreparedStatement preparedStatement;
         try {
-            preparedStatement = getConnection().prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
+
         } catch (SQLException e) {
             throw new DataSourceException(e);
         }
@@ -63,7 +65,7 @@ public class DataSourceConnection {
 
     public void closeConnection(final Connection connection) {
         try {
-            if(connection != null) {
+            if (connection != null) {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -73,7 +75,7 @@ public class DataSourceConnection {
 
     public void closeQueryExecution(final PreparedStatement preparedStatement) {
         try {
-            if(preparedStatement != null) {
+            if (preparedStatement != null) {
                 preparedStatement.close();
             }
         } catch (SQLException e) {

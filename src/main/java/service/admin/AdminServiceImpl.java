@@ -4,6 +4,7 @@ import model.admin.Admin;
 import org.apache.commons.lang3.StringUtils;
 import repository.admin.AdminRepository;
 import repository.admin.AdminRepositoryImpl;
+import repository.common.exception.DataSourceException;
 import service.common.exception.ServiceRuntimeException;
 
 import java.util.List;
@@ -28,13 +29,15 @@ public class AdminServiceImpl implements AdminService {
             adminRepository.createAdmin(username);
         }
         final List<Admin> admins = adminRepository.findAll();
-        // todo admins get(0) may throw index out of bound exp
+        if (admins.isEmpty()) {
+            throw new DataSourceException("Admin is not found");
+        }
         return admins.get(0);
     }
 
     // Utility methods
     private void assertUsernameNotEmpty(final String username) {
-        if(StringUtils.isEmpty(username)) {
+        if (StringUtils.isEmpty(username)) {
             throw new ServiceRuntimeException("Admin username should not be empty");
         }
     }

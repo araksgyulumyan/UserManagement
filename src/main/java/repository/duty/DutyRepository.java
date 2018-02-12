@@ -4,6 +4,8 @@ import model.duty.Duty;
 import model.duty.DutyType;
 import repository.common.CommonRepository;
 
+import java.util.List;
+
 /**
  * Created by araksgyulumyan
  * Date - 1/29/18
@@ -11,10 +13,9 @@ import repository.common.CommonRepository;
  */
 public interface DutyRepository extends CommonRepository<Duty> {
 
-    Duty createDuty(final DutyType type, final Long employeeId);
+    Duty createDuty(final Long employeeId, final DutyType type);
 
-    Duty updateDutyType(final DutyType type);
+    List<Duty> getDutiesOfEmployee(final Long employeeId);
 
-    Duty updateDutyEmployeeId(final Long employeeId);
-
+    Duty getLastInsertedDuty();
 }

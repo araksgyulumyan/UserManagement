@@ -10,7 +10,10 @@ import repository.common.CommonRepository;
  */
 public interface EmployeeRepository extends CommonRepository<Employee> {
 
-    void createEmployee(String name);
+    Employee createEmployee(final String name);
 
-    Employee updateEmployeeName(String name);
+    Employee updateEmployeeName(final String name);
+
+    Employee getEmployeeDuties (Long id);
+
 }

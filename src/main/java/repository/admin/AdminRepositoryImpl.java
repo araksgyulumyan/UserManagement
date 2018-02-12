@@ -1,6 +1,7 @@
 package repository.admin;
 
 import model.admin.Admin;
+import repository.common.AbstractRepository;
 import repository.common.exception.DataSourceException;
 import repository.common.model.DataSourceConnection;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * Date - 1/28/18
  * Time - 10:36 PM
  */
-public class AdminRepositoryImpl implements AdminRepository {
+public class AdminRepositoryImpl extends AbstractRepository implements AdminRepository {
 
     private static final String FIND_ALL_QUERY = "SELECT * FROM ADMINS";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM ADMINS WHERE id=%d";
@@ -25,19 +26,19 @@ public class AdminRepositoryImpl implements AdminRepository {
 
     @Override
     public List<Admin> findAll() {
-        final List<Admin> admins = new ArrayList<>();
         // Open connection
         final Connection connection = getConnection();
         // Get prepared statement
         final PreparedStatement preparedStatement = DataSourceConnection.
                 getInstance().
                 createPreparedStatement(FIND_ALL_QUERY, connection);
+        final List<Admin> admins;
         try {
             final ResultSet resultSet;
             // Execute
             resultSet = preparedStatement.executeQuery();
             // Convert result set into model
-            admins.addAll(convertToAdmin(resultSet));
+            admins = convertToAdmin(resultSet);
         } catch (SQLException e) {
             throw new DataSourceException(e);
         } finally {
@@ -49,27 +50,25 @@ public class AdminRepositoryImpl implements AdminRepository {
 
     @Override
     public Admin findById(Long id) {
-        final List<Admin> admins = new ArrayList<>();
         // Open connection
         final Connection connection = getConnection();
-
-        String sqlQuery = String.format(FIND_BY_ID_QUERY, id);
-
+        final String sqlQuery = String.format(FIND_BY_ID_QUERY, id);
         // Get prepared statement
         final PreparedStatement preparedStatement = DataSourceConnection.
                 getInstance().
                 createPreparedStatement(sqlQuery, connection);
+        final List<Admin> admins;
         try {
             final ResultSet resultSet = preparedStatement.executeQuery();
             // Convert result set into model
-            admins.addAll(convertToAdmin(resultSet));
+            admins = convertToAdmin(resultSet);
         } catch (SQLException e) {
             throw new DataSourceException(e);
         } finally {
             // Close resources
             closeExecutionResources(preparedStatement, connection);
         }
-        //todo check and throw ex if result is empty
+        this.assertCollectionIsNotEmpty(admins);
         return admins.get(0);
     }
 
@@ -90,8 +89,15 @@ public class AdminRepositoryImpl implements AdminRepository {
                 createPreparedStatement(sqlQuery, connection);
         int result;
         try {
+            connection.setAutoCommit(Boolean.FALSE);
             result = preparedStatement.executeUpdate();
+            connection.commit();
         } catch (final SQLException e) {
+            try {
+                connection.rollback();
+            } catch (final SQLException ex) {
+                throw new DataSourceException(ex);
+            }
             throw new DataSourceException(e);
         } finally {
             closeExecutionResources(preparedStatement, connection);

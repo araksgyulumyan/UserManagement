@@ -1,6 +1,7 @@
 package model.duty;
 
 import model.common.AbstractModel;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Created by araksgyulumyan
@@ -9,9 +10,12 @@ import model.common.AbstractModel;
  */
 public class Duty extends AbstractModel {
 
+    // Properties
     private DutyType type;
-    private Long employee_id;
 
+    private Long employeeId;
+
+    // Getters and setters
     public DutyType getType() {
         return type;
     }
@@ -20,11 +24,21 @@ public class Duty extends AbstractModel {
         this.type = type;
     }
 
-    public Long getEmployee_id() {
-        return employee_id;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmployee_id(Long employee_id) {
-        this.employee_id = employee_id;
+    public void setEmployeeId(final Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    // Methods overrides
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .appendSuper(super.toString())
+                .append("type", type)
+                .append("employeeId", employeeId)
+                .toString();
     }
 }

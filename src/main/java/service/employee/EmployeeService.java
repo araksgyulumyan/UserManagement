@@ -1,6 +1,9 @@
 package service.employee;
 
+import model.employee.Employee;
 import service.common.factory.Service;
+
+import java.util.List;
 
 /**
  * Created by araksgyulumyan
@@ -8,4 +11,10 @@ import service.common.factory.Service;
  * Time - 9:04 PM
  */
 public interface EmployeeService extends Service {
+
+    Employee createEmployee(final String name);
+
+    List<Employee> getAllEmployees();
+
+    Employee getEmployeeById(Long id);
 }

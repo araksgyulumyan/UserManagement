@@ -1,4 +1,4 @@
-# UserManagement with Maven
+# UserManagement using Maven (without framework)
 
 1) There are user subtypes such as: ADMIN and EMPLOYEE
 2) EMPLOYEEs can be created only by ADMIN
